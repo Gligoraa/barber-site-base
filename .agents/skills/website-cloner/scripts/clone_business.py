@@ -49,7 +49,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Automate barbershop website cloning.')
     parser.add_argument('--template', type=str, default='d:/barbers anti/Website Template', help='Path to base template')
     parser.add_argument('--input', type=str, required=True, help='Path to shop data JSON')
-    parser.add_argument('--output', type=str, required=True, help='Path for the new shop project')
+    parser.add_argument('--output_dir', type=str, required=True, help='Path for the new shop project')
     
     args = parser.parse_args()
-    clone_business(args.template, args.input, args.output)
+    clone_business(args.template, args.input, args.output_dir)

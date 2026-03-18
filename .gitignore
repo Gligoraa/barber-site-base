@@ -34,7 +34,7 @@ Thumbs.db
 # Project Specific
 rijeka_leads.csv
 rijeka_barbershops_output.json
-barber-seville-clone/
+*-clone/
 temp/
 /tmp/
 .gemini/
