@@ -1,0 +1,66 @@
+{
+  "name": "Barber of Seville",
+  "tagline": "Classic Italian Grooming in Rijeka",
+  "heroPromise": {
+    "main": "The Perfect",
+    "italics": "Classic Cut",
+    "subtext": "Centuries of Italian tradition brought to the heart of Croatia. Experience a masterpiece in grooming."
+  },
+  "philosophy": [
+    {
+      "title": "Tradition",
+      "desc": "Operating with the same techniques used in Seville for over 100 years."
+    },
+    {
+      "title": "Family",
+      "desc": "A barbershop that treats every customer like family. We remember your name and your cut."
+    },
+    {
+      "title": "Precision",
+      "desc": "Using only the finest Italian grooming tools and imported essences."
+    }
+  ],
+  "services": [
+    { "id": "1", "name": "Classic Barber Cut", "price": "$30", "duration": "30 mins" },
+    { "id": "2", "name": "Hot Towel Shave", "price": "$25", "duration": "25 mins" },
+    { "id": "3", "name": "The Full Work", "price": "$50", "duration": "55 mins" }
+  ],
+  "stylists": [
+    {
+      "id": "1",
+      "name": "Luigi Barber",
+      "specialty": "Direct from Italy",
+      "bio": "4th generation master barber from the Amalfi coast.",
+      "image": "https://images.unsplash.com/photo-1534030347209-c87cd1b7bc2c?auto=format&fit=crop&q=80&w=400"
+    }
+  ],
+  "reviews": [
+    {
+      "name": "Antun P.",
+      "text": "The only place I trust for my beard. Luigi is a true artist.",
+      "rating": 5
+    }
+  ],
+  "gallery": [
+    "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=800"
+  ],
+  "contact": {
+    "address": "Korzo 1, Rijeka, Croatia",
+    "phone": "+385 51 000 001",
+    "email": "luigi@sevillebarber.hr",
+    "social": {
+      "instagram": "https://instagram.com/seville_barber",
+      "facebook": "https://facebook.com/seville_barber"
+    }
+  },
+  "hours": {
+    "mon_fri": "08:00 - 21:00",
+    "sat": "09:00 - 18:00",
+    "sun": "Closed"
+  },
+  "theme": {
+    "primaryColor": "emerald-500",
+    "secondaryColor": "zinc-950"
+  }
+}
