@@ -7,7 +7,7 @@ export const ReviewsSection = () => {
     <section id="reviews" className="py-24 bg-zinc-900 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-light text-white mb-4">What Our Clients Say</h2>
+          <h2 className="text-4xl font-light text-white mb-4">Što Kažu Naši Klijenti</h2>
           <div className="flex justify-center gap-1">
             {[1, 2, 3, 4, 5].map((s) => (
               <Star key={s} className="w-5 h-5 text-amber-500 fill-current" />

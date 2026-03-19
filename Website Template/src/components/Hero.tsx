@@ -43,14 +43,14 @@ export const Hero = ({ onBookClick }: HeroProps) => {
               className="w-full sm:w-auto bg-white text-black px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-amber-500 hover:text-black transition-all focus:ring-2 focus:ring-amber-500"
               aria-label="Book your appointment today"
             >
-              Reserve Your Chair
+              Rezerviraj Svoj Termin
             </button>
             <a 
               href="#promise"
               className="w-full sm:w-auto border border-white/20 text-white px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-2"
               aria-label="Learn about our quality promise"
             >
-              Our Philosophy
+              Naša Filozofija
             </a>
           </div>
         </motion.div>

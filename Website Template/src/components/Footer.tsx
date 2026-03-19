@@ -15,7 +15,7 @@ export const Footer = () => {
               <span className="text-2xl font-black text-white uppercase tracking-tighter">{businessData.name}</span>
             </div>
             <p className="text-white/40 text-lg font-light leading-relaxed mb-10 max-w-sm">
-              Premium grooming for the modern individual. We combine traditional techniques with contemporary style to provide an unmatched experience.
+              Premium usluga za modernog muškarca. Spajamo tradicionalne tehnike sa suvremenim stilom kako bismo pružili neponovljivo iskustvo.
             </p>
             <div className="flex gap-4">
               <a 
@@ -36,7 +36,7 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-amber-500 font-bold uppercase tracking-[0.2em] mb-10 text-sm">Location</h4>
+            <h4 className="text-amber-500 font-bold uppercase tracking-[0.2em] mb-10 text-sm">Lokacija</h4>
             <div className="space-y-6">
               <div className="flex gap-4 items-start text-white/60">
                 <MapPin className="w-5 h-5 text-amber-500 shrink-0" />
@@ -50,18 +50,18 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-amber-500 font-bold uppercase tracking-[0.2em] mb-10 text-sm">Hours</h4>
+            <h4 className="text-amber-500 font-bold uppercase tracking-[0.2em] mb-10 text-sm">Radno Vrijeme</h4>
             <div className="space-y-4 text-white/60 font-light font-mono text-sm leading-relaxed">
               <div className="flex justify-between">
-                <span>Mon - Fri</span>
+                <span>Pon - Pet</span>
                 <span>{businessData.hours.mon_fri}</span>
               </div>
               <div className="flex justify-between">
-                <span>Saturday</span>
+                <span>Subota</span>
                 <span>{businessData.hours.sat}</span>
               </div>
               <div className="flex justify-between">
-                <span>Sunday</span>
+                <span>Nedjelja</span>
                 <span className="text-amber-500/50">{businessData.hours.sun}</span>
               </div>
             </div>
@@ -70,11 +70,11 @@ export const Footer = () => {
 
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-white/20 text-xs uppercase tracking-widest">
-            © 2026 {businessData.name} Barbershop. All rights reserved.
+            © 2026 {businessData.name} Frizerski salon. Sva prava pridržana.
           </p>
           <div className="flex gap-8 text-white/20 text-[10px] uppercase tracking-widest font-bold">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-white transition-colors">Pravila Privatnosti</a>
+            <a href="#" className="hover:text-white transition-colors">Uvjeti Korištenja</a>
           </div>
         </div>
       </div>

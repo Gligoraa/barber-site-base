@@ -24,15 +24,15 @@ export const Navbar = ({ onBookClick, onDashboardClick, isDashboard }: NavbarPro
         </button>
         
         <div className="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.3em] font-bold text-white/50">
-          <a href="#services" className="hover:text-white transition-colors">Services</a>
-          <a href="#team" className="hover:text-white transition-colors">Team</a>
-          <a href="#gallery" className="hover:text-white transition-colors">Gallery</a>
+          <a href="#services" className="hover:text-white transition-colors">Usluge</a>
+          <a href="#team" className="hover:text-white transition-colors">Tim</a>
+          <a href="#gallery" className="hover:text-white transition-colors">Galerija</a>
           <button 
             onClick={onDashboardClick}
             className="flex items-center gap-2 text-amber-500 hover:text-white transition-colors"
           >
             <LayoutDashboard className="w-3 h-3" />
-            {isDashboard ? 'Home' : 'Dashboard'}
+            {isDashboard ? 'Početna' : 'Nadzorna ploča'}
           </button>
         </div>
       </div>
@@ -42,7 +42,7 @@ export const Navbar = ({ onBookClick, onDashboardClick, isDashboard }: NavbarPro
         className="bg-amber-500 hover:bg-amber-600 text-black px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest transition-all transform active:scale-95 shadow-lg shadow-amber-500/20 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black pointer-events-auto"
         aria-label="Book an appointment now"
       >
-        Book Now
+        Rezerviraj
       </button>
     </nav>
   );

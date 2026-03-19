@@ -8,9 +8,9 @@ export const TeamSection = () => {
     <section id="team" className="py-24 bg-black px-6">
       <div className="max-w-7xl mx-auto text-center">
         <div className="mb-16">
-          <h2 className="text-4xl font-light text-white mb-4">Meet the Artists</h2>
+          <h2 className="text-4xl font-light text-white mb-4">Upoznajte Majstore</h2>
           <p className="text-white/50 max-w-xl mx-auto font-light leading-relaxed">
-            Our master stylists bring decades of combined experience and a passion for perfection.
+            Naši majstori donose desetljeća iskustva i strast prema savršenstvu.
           </p>
         </div>
 

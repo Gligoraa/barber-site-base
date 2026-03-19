@@ -83,13 +83,13 @@ const App = () => {
       {/* Mobile Quick Actions */}
       <div className="md:hidden fixed bottom-6 left-6 right-6 z-40 flex gap-3">
         <a href={`tel:${businessData.contact.phone}`} className="flex-1 bg-zinc-900 border border-white/10 text-white h-14 rounded-2xl flex items-center justify-center gap-2 font-bold uppercase tracking-widest text-xs">
-          <Phone className="w-4 h-4" /> Call
+          <Phone className="w-4 h-4" /> Nazovi
         </a>
         <button
           onClick={() => setIsBookingOpen(true)}
           className="flex-[2] bg-amber-500 text-black h-14 rounded-2xl flex items-center justify-center gap-2 font-bold uppercase tracking-widest text-xs shadow-xl shadow-amber-500/20"
         >
-          <Calendar className="w-4 h-4" /> Book Now
+          <Calendar className="w-4 h-4" /> Rezerviraj
         </button>
       </div>
 

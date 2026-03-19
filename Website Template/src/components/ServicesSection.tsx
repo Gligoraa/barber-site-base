@@ -8,9 +8,9 @@ export const ServicesSection = () => {
     <section id="services" className="py-24 bg-zinc-950 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20">
-          <h2 className="text-4xl md:text-5xl font-light text-white mb-6">Master <span className="text-amber-500 italic font-serif">Services</span></h2>
+          <h2 className="text-4xl md:text-5xl font-light text-white mb-6">Naše <span className="text-amber-500 italic font-serif">Usluge</span></h2>
           <p className="text-white/40 max-w-xl font-light leading-relaxed">
-            From precision beard sculpting to complete modern transformations, our services are tailored to each client's unique features.
+            Od preciznog oblikovanja brade do potpunih modernih transformacija, naše usluge su prilagođene jedinstvenim crtama svakog klijenta.
           </p>
         </div>
 

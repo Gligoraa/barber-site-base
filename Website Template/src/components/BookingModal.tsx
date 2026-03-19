@@ -67,7 +67,7 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
           >
             <div className="flex justify-between items-center p-8 border-b border-white/5">
               <div>
-                <h2 className="text-2xl font-light text-white">Book Appointment</h2>
+                <h2 className="text-2xl font-light text-white">Rezerviraj Termin</h2>
                 <div className="flex gap-2 mt-2">
                   {[1, 2, 3, 4].map(s => (
                     <div key={s} className={`h-1 w-8 rounded-full transition-colors ${s <= step ? 'bg-amber-500' : 'bg-white/10'}`} />
@@ -85,7 +85,7 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
             <div className="p-8 h-[500px] custom-scrollbar overflow-y-auto">
               {step === 1 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Select Service</h3>
+                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Odaberi Uslugu</h3>
                   <div className="grid grid-cols-1 gap-3">
                     {services.map(s => (
                       <button
@@ -105,7 +105,7 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
 
               {step === 2 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Choose Stylist</h3>
+                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Odaberi Majstora</h3>
                   <div className="grid grid-cols-1 gap-3">
                     {stylists.map(s => (
                       <button
@@ -126,7 +126,7 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
 
               {step === 3 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Select Date & Time</h3>
+                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Odaberi Datum i Vrijeme</h3>
                   <div className="grid gap-8">
                     <input 
                       type="date" 
@@ -153,10 +153,10 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
                   <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-8">
                     <Scissors className="w-10 h-10 text-amber-500" />
                   </div>
-                  <h3 className="text-3xl text-white font-light mb-4">Confirm Selection</h3>
+                  <h3 className="text-3xl text-white font-light mb-4">Potvrdi Odabir</h3>
                   <div className="bg-white/5 rounded-[32px] p-8 max-w-sm mx-auto space-y-4 border border-white/5">
                     <p className="text-white/60 text-sm">{services.find(s => s.id === selectedService)?.name}</p>
-                    <p className="text-amber-500 font-bold text-xl">with {stylists.find(s => s.id === selectedStylist)?.name}</p>
+                    <p className="text-amber-500 font-bold text-xl">s {stylists.find(s => s.id === selectedStylist)?.name}</p>
                     <div className="flex justify-center gap-4 text-white/40 text-sm">
                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {selectedDate}</span>
                       <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {selectedTime}</span>
@@ -167,7 +167,7 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
                     onClick={handleComplete}
                     className="mt-12 w-full bg-amber-500 text-black py-5 rounded-full font-bold uppercase tracking-widest hover:bg-amber-600 transition-all flex items-center justify-center gap-3"
                   >
-                    Confirm Booking <ArrowRight className="w-5 h-5" />
+                    Potvrdi Rezervaciju <ArrowRight className="w-5 h-5" />
                   </button>
                 </motion.div>
               )}
@@ -176,7 +176,7 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
             {step > 1 && step < 4 && (
               <div className="p-8 border-t border-white/5 flex justify-start">
                 <button onClick={() => setStep(step - 1)} className="text-white/40 text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">
-                  Back
+                  Nazad
                 </button>
               </div>
             )}

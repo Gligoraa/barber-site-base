@@ -67,71 +67,71 @@ export interface BusinessConfig {
 }
 
 export const businessData: BusinessConfig = {
-  name: "Luxe & Blade",
-  tagline: "Experience the Art of Grooming",
+  name: "FadeRoom Barber",
+  tagline: "Premium muški frizerski salon",
   heroPromise: {
-    main: "More Than Just a",
-    italics: "Cut",
-    subtext: "Escape the noise. We provide a relaxing sanctuary with premium head massages, precision techniques, and the finest products for the modern individual."
+    main: "Više od običnog",
+    italics: "Šišanja",
+    subtext: "FadeRoom je premium frizerski salon u Rijeci. Rezervirajte termin brzo i jednostavno. Šišanje, brijanje i styling na jednom mjestu."
   },
   philosophy: [
     {
-      title: "The Craft",
-      desc: "Every cut is a signature. Our master barbers combine centuries-old tradition with modern precision."
+      title: "Zanat",
+      desc: "Svaki rez je naš potpis. Spajamo tradiciju zanata s modernom preciznošću."
     },
     {
-      title: "The Sanctuary",
-      desc: "Step out of the city and into a space designed for relaxation, premium spirits, and total focus on you."
+      title: "Oaza za muškarce",
+      desc: "Zaboravite na gradsku vrevu. Uživajte u prostoru stvorenom za opuštanje i potpunu posvećenost vama."
     },
     {
-      title: "The Standard",
-      desc: "We use only world-class grooming products. No compromises, just exceptional results every time."
+      title: "Standard",
+      desc: "Koristimo samo prvoklasne proizvode. Nema kompromisa, samo vrhunski rezultati svaki put."
     }
   ],
   services: [
-    { id: '1', name: 'Express Grooming', price: '$35', duration: '30 mins' },
-    { id: '2', name: 'Signature Cut & Style', price: '$55', duration: '45 mins' },
-    { id: '3', name: 'Luxury Beard Trim', price: '$25', duration: '20 mins' },
-    { id: '4', name: 'Precision Color', price: '$120+', duration: '90 mins' },
-    { id: '5', name: 'Executive Package', price: '$95', duration: '75 mins' }
+    { id: '1', name: 'Šišanje', price: '20,00 €', duration: '30 min' },
+    { id: '2', name: 'Pranje i stiliziranje', price: '10,00 €', duration: '15 min' },
+    { id: '3', name: 'Uređivanje brade', price: '15,00 €', duration: '20 min' },
+    { id: '4', name: 'Šišanje i uređenje brade', price: '30,00 €', duration: '50 min' },
+    { id: '5', name: 'Dječje šišanje', price: '15,00 €', duration: '30 min' }
   ],
   stylists: [
     {
       id: '1',
-      name: 'Marco Rossi',
+      name: 'Ivan Matić',
       specialty: 'Master Barber',
-      bio: 'Award-winning master of traditional straight razor shaves and precision beard styling.',
+      bio: 'Nagrađivani majstor klasičnog brijanja i preciznog stiliziranja brade.',
       image: 'https://images.unsplash.com/photo-1534030347209-c87cd1b7bc2c?auto=format&fit=crop&q=80&w=400'
     },
     {
       id: '2',
-      name: 'Elena Vance',
-      specialty: 'Senior Stylist',
-      bio: 'Specialist in modern texturized cuts and avant-garde male grooming techniques.',
+      name: 'Luka Horvat',
+      specialty: 'Senior Barber',
+      bio: 'Stručnjak za moderne teksturirane frizure i avangardne tehnike brijanja.',
       image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400'
     },
     {
       id: '3',
-      name: 'James Chen',
-      specialty: 'Color Artist',
-      bio: 'Renowned expert in subtle grey blending and creative male hair coloring.',
+      name: 'Marko Kovač',
+      specialty: 'Barber',
+      bio: 'Poznat po Fade tehnikama, savršenim prijelazima i modernim stilovima.',
       image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400'
     }
   ],
   reviews: [
     {
       name: "David K.",
-      text: "The best grooming experience in the city. Marco is a master of the straight razor. The atmosphere is top notch.",
+      text: "Najbolje iskustvo šišanja u gradu. Ivan je majstor svog zanata. Atmosfera je vrhunska.",
       rating: 5
     },
     {
-      name: "Sarah M.",
-      text: "Elena transformed my hair. Her color matching is perfect. Finally a salon that truly listens to clients.",
+      name: "Sanjin M.",
+      text: "Marko mi je potpuno transformirao frizuru. Konačno frizerski salon koji zaista sluša klijente.",
       rating: 5
     },
     {
-      name: "Michael R.",
-      text: "Premium service from start to finish. The head massage alone is worth the visit. Highly recommended.",
+      name: "Mihael R.",
+      text: "Premium usluga od početka do kraja. Topla preporuka svima u Rijeci.",
       rating: 5
     }
   ],
@@ -144,21 +144,21 @@ export const businessData: BusinessConfig = {
     'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80&w=800'
   ],
   contact: {
-    address: '123 Artisan Way, Design District, NY 10012',
-    phone: '+1 (555) 000-1234',
-    email: 'info@luxeblade.com',
+    address: 'Ulica..., Rijeka, 51000 HR',
+    phone: '+385-XX-XXX-XXXX',
+    email: 'info@faderoom.hr',
     social: {
-      instagram: 'https://instagram.com/luxeblade',
-      facebook: 'https://facebook.com/luxeblade'
+      instagram: 'https://instagram.com/faderoom',
+      facebook: 'https://facebook.com/faderoom'
     }
   },
   hours: {
     mon_fri: '09:00 - 20:00',
-    sat: '10:00 - 18:00',
-    sun: 'Closed'
+    sat: '09:00 - 15:00',
+    sun: 'Zatvoreno'
   },
   theme: {
-    primaryColor: 'amber-500',
+    primaryColor: 'zinc-100',
     secondaryColor: 'zinc-950'
   }
 };

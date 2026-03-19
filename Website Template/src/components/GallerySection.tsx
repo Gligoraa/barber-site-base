@@ -9,8 +9,8 @@ export const GallerySection = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 md:flex justify-between items-end">
           <div className="mb-8 md:mb-0">
-            <h2 className="text-4xl font-light text-white mb-4">Portfolio</h2>
-            <p className="text-white/50 font-light italic">Real clients, real results. Excellence in every detail.</p>
+            <h2 className="text-4xl font-light text-white mb-4">Galerija</h2>
+            <p className="text-white/50 font-light italic">Stvarni klijenti, stvarni rezultati. Izvrsnost u svakom detalju.</p>
           </div>
           <a 
             href={businessData.contact.social.instagram}
@@ -19,7 +19,7 @@ export const GallerySection = () => {
             className="text-amber-500 flex items-center gap-2 font-bold uppercase tracking-widest text-sm hover:gap-4 transition-all min-h-[44px] px-2 focus:outline-none focus:underline"
             aria-label="Follow our work on Instagram"
           >
-            View Instagram <Instagram className="w-4 h-4" aria-hidden="true" />
+            Pogledaj Instagram <Instagram className="w-4 h-4" aria-hidden="true" />
           </a>
         </div>
 
