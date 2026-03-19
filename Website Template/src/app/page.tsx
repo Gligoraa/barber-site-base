@@ -1,23 +1,25 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Phone, Calendar } from 'lucide-react';
 
 // Config & Types
-import { Appointment, businessData } from './config/business-config';
+import { Appointment, businessData } from '../config/business-config';
 
 // Components
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { PromiseSection } from './components/PromiseSection';
-import { ServicesSection } from './components/ServicesSection';
-import { TeamSection } from './components/TeamSection';
-import { ReviewsSection } from './components/ReviewsSection';
-import { GallerySection } from './components/GallerySection';
-import { Dashboard } from './components/Dashboard';
-import { Footer } from './components/Footer';
-import { BookingModal } from './components/BookingModal';
+import { Navbar } from '../components/Navbar';
+import { Hero } from '../components/Hero';
+import { PromiseSection } from '../components/PromiseSection';
+import { ServicesSection } from '../components/ServicesSection';
+import { TeamSection } from '../components/TeamSection';
+import { ReviewsSection } from '../components/ReviewsSection';
+import { GallerySection } from '../components/GallerySection';
+import { Dashboard } from '../components/Dashboard';
+import { Footer } from '../components/Footer';
+import { BookingModal } from '../components/BookingModal';
 
-const App = () => {
+export default function Home() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isDashboard, setIsDashboard] = useState(false);
   const [bookings, setBookings] = useState<Appointment[]>([]);
@@ -110,6 +112,4 @@ const App = () => {
       `}</style>
     </div>
   );
-};
-
-export default App;
+}

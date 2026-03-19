@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, Scissors, User, ArrowRight } from 'lucide-react';
+import { X, Calendar, Clock, Scissors, ArrowRight } from 'lucide-react';
 import { Appointment, businessData } from '../config/business-config';
 
 interface BookingModalProps {
@@ -20,30 +20,45 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
   const stylists = businessData.stylists;
   const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     const stylist = stylists.find(s => s.id === selectedStylist);
     const service = services.find(s => s.id === selectedService);
     
     if (stylist && service) {
-      const newBooking: Appointment = {
-        id: Math.random().toString(36).substr(2, 9),
-        date: selectedDate,
-        time: selectedTime,
-        service: service.name,
-        stylistId: stylist.id,
-        stylistName: stylist.name,
-        price: service.price,
-        status: 'upcoming'
-      };
-      
-      onBookingComplete(newBooking);
-      onClose();
-      // Reset state
-      setStep(1);
-      setSelectedService('');
-      setSelectedStylist('');
-      setSelectedDate('');
-      setSelectedTime('');
+      // Parse price "20,00 €" -> 2000
+      const priceInCents = parseInt(service.price.replace(/[^\d]/g, "")) * 100 || 0;
+
+      try {
+        const response = await fetch("/api/reservations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            clientName: "Test Klijent", // In real version we should ask for name/email/phone
+            clientEmail: "test@example.com",
+            clientPhone: "0912345678",
+            service: service.name,
+            price: priceInCents,
+            date: new Date(`${selectedDate}T${selectedTime}`),
+            notes: `Frizer: ${stylist.name}`,
+          }),
+        });
+
+        if (response.ok) {
+          const newBookingData = await response.json();
+          // We can still trigger local state if needed for UI, but the source of truth is now DB
+          onBookingComplete(newBookingData);
+          onClose();
+          // Reset state
+          setStep(1);
+          setSelectedService('');
+          setSelectedStylist('');
+          setSelectedDate('');
+          setSelectedTime('');
+        }
+      } catch (error) {
+        console.error("Greška pri rezervaciji:", error);
+        alert("Došlo je do greške. Molimo pokušajte ponovo.");
+      }
     }
   };
 

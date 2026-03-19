@@ -18,7 +18,7 @@ export const ReviewsSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {businessData.reviews.map((r, i) => (
             <div key={i} className="bg-black/40 p-10 rounded-3xl border border-white/5 relative">
-              <div className="text-amber-500 text-4xl font-serif absolute top-6 left-6 opacity-20">"</div>
+              <div className="text-amber-500 text-4xl font-serif absolute top-6 left-6 opacity-20">&quot;</div>
               <p className="text-white/70 italic mb-8 relative z-10">{r.text}</p>
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-amber-500/10 rounded-full flex items-center justify-center text-amber-500 text-xs font-bold">

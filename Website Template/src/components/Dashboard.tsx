@@ -1,7 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Calendar, History, User } from 'lucide-react';
-import { Appointment, businessData } from '../config/business-config';
+import { Calendar, History } from 'lucide-react';
+import { Appointment } from '../config/business-config';
 
 export const Dashboard = ({ bookings }: { bookings: Appointment[] }) => {
   return (

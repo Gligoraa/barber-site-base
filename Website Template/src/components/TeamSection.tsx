@@ -40,7 +40,7 @@ export const TeamSection = () => {
               <h3 className="text-xl font-bold text-white mb-1">{stylist.name}</h3>
               <p className="text-amber-500 text-sm font-medium uppercase tracking-widest mb-4 tracking-[0.2em]">{stylist.specialty}</p>
               <p className="text-white/40 text-sm leading-relaxed max-w-xs mx-auto italic font-light">
-                "{stylist.bio}"
+                &quot;{stylist.bio}&quot;
               </p>
             </motion.div>
           ))}
