@@ -18,9 +18,12 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FadeRoom Barber | Frizerski salon Rijeka – Online rezervacija",
-  description: "FadeRoom je premium frizerski salon u Rijeci. Rezervirajte termin online brzo i jednostavno. Šišanje, brijanje i styling na jednom mjestu.",
-  keywords: "frizer Rijeka, frizerski salon Rijeka, rezervacija frizera online, brijanje Rijeka, FadeRoom barber, muški frizer Rijeka",
+  metadataBase: new URL("https://faderoom.hr"),
+  title: "FadeRoom Barber | Frizerski salon Rijeka - Online rezervacija",
+  description:
+    "FadeRoom je premium frizerski salon u Rijeci. Rezervirajte termin online brzo i jednostavno. \u0160i\u0161anje, brijanje i styling na jednom mjestu.",
+  keywords:
+    "frizer Rijeka, frizerski salon Rijeka, rezervacija frizera online, brijanje Rijeka, FadeRoom barber, mu\u0161ki frizer Rijeka",
   authors: [{ name: "FadeRoom Barber" }],
   openGraph: {
     type: "website",
@@ -28,13 +31,14 @@ export const metadata: Metadata = {
     url: "https://faderoom.hr",
     siteName: "FadeRoom Barber Rijeka",
     title: "FadeRoom Barber | Premium frizerski salon Rijeka",
-    description: "Rezervirajte termin u FadeRoom barber salonu u Rijeci. Brzo, jednostavno i online.",
+    description:
+      "Rezervirajte termin u FadeRoom barber salonu u Rijeci. Brzo, jednostavno i online.",
     images: ["/og-image.jpg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "FadeRoom Barber Rijeka",
-    description: "Premium frizerski salon u Rijeci – online rezervacije.",
+    description: "Premium frizerski salon u Rijeci - online rezervacije.",
     images: ["/og-image.jpg"],
   },
 };

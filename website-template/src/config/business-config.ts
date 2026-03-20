@@ -21,7 +21,7 @@ export interface Appointment {
   stylistId: string;
   stylistName: string;
   price: string;
-  status: 'upcoming' | 'completed' | 'cancelled';
+  status: "upcoming" | "completed" | "cancelled";
 }
 
 export interface Review {
@@ -61,104 +61,108 @@ export interface BusinessConfig {
     sun: string;
   };
   theme: {
-    primaryColor: string; // TailWind class or Hex
+    primaryColor: string;
     secondaryColor: string;
   };
 }
 
 export const businessData: BusinessConfig = {
   name: "FadeRoom Barber",
-  tagline: "Premium muški frizerski salon",
+  tagline: "Premium mu\u0161ki frizerski salon",
   heroPromise: {
-    main: "Više od običnog",
-    italics: "Šišanja",
-    subtext: "FadeRoom je premium frizerski salon u Rijeci. Rezervirajte termin brzo i jednostavno. Šišanje, brijanje i styling na jednom mjestu."
+    main: "Vi\u0161e od obi\u010dnog",
+    italics: "\u0161i\u0161anja",
+    subtext:
+      "FadeRoom je premium frizerski salon u Rijeci. Rezervirajte termin brzo i jednostavno. \u0160i\u0161anje, brijanje i styling na jednom mjestu.",
   },
   philosophy: [
     {
       title: "Zanat",
-      desc: "Svaki rez je naš potpis. Spajamo tradiciju zanata s modernom preciznošću."
+      desc: "Svaki rez je na\u0161 potpis. Spajamo tradiciju zanata s modernom precizno\u0161\u0107u.",
     },
     {
-      title: "Oaza za muškarce",
-      desc: "Zaboravite na gradsku vrevu. Uživajte u prostoru stvorenom za opuštanje i potpunu posvećenost vama."
+      title: "Oaza za mu\u0161karce",
+      desc: "Zaboravite na gradsku vrevu. U\u017eivajte u prostoru stvorenom za opu\u0161tanje i potpunu posve\u0107enost vama.",
     },
     {
       title: "Standard",
-      desc: "Koristimo samo prvoklasne proizvode. Nema kompromisa, samo vrhunski rezultati svaki put."
-    }
+      desc: "Koristimo samo prvoklasne proizvode. Nema kompromisa, samo vrhunski rezultati svaki put.",
+    },
   ],
   services: [
-    { id: '1', name: 'Šišanje', price: '20,00 €', duration: '30 min' },
-    { id: '2', name: 'Pranje i stiliziranje', price: '10,00 €', duration: '15 min' },
-    { id: '3', name: 'Uređivanje brade', price: '15,00 €', duration: '20 min' },
-    { id: '4', name: 'Šišanje i uređenje brade', price: '30,00 €', duration: '50 min' },
-    { id: '5', name: 'Dječje šišanje', price: '15,00 €', duration: '30 min' }
+    { id: "1", name: "\u0160i\u0161anje", price: "20,00 \u20ac", duration: "30 min" },
+    { id: "2", name: "Pranje i stiliziranje", price: "10,00 \u20ac", duration: "15 min" },
+    { id: "3", name: "Ure\u0111ivanje brade", price: "15,00 \u20ac", duration: "20 min" },
+    { id: "4", name: "\u0160i\u0161anje i ure\u0111ivanje brade", price: "30,00 \u20ac", duration: "50 min" },
+    { id: "5", name: "Dje\u010dje \u0161i\u0161anje", price: "15,00 \u20ac", duration: "30 min" },
   ],
   stylists: [
     {
-      id: '1',
-      name: 'Ivan Matić',
-      specialty: 'Master Barber',
-      bio: 'Nagrađivani majstor klasičnog brijanja i preciznog stiliziranja brade.',
-      image: 'https://images.unsplash.com/photo-1534030347209-c87cd1b7bc2c?auto=format&fit=crop&q=80&w=400'
+      id: "1",
+      name: "Ivan Mati\u0107",
+      specialty: "Master Barber",
+      bio: "Nagra\u0111ivani majstor klasi\u010dnog brijanja i preciznog stiliziranja brade.",
+      image:
+        "https://images.unsplash.com/photo-1534030347209-c87cd1b7bc2c?auto=format&fit=crop&q=80&w=400",
     },
     {
-      id: '2',
-      name: 'Luka Horvat',
-      specialty: 'Senior Barber',
-      bio: 'Stručnjak za moderne teksturirane frizure i avangardne tehnike brijanja.',
-      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400'
+      id: "2",
+      name: "Luka Horvat",
+      specialty: "Senior Barber",
+      bio: "Stru\u010dnjak za moderne teksturirane frizure i avangardne tehnike brijanja.",
+      image:
+        "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400",
     },
     {
-      id: '3',
-      name: 'Marko Kovač',
-      specialty: 'Barber',
-      bio: 'Poznat po Fade tehnikama, savršenim prijelazima i modernim stilovima.',
-      image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400'
-    }
+      id: "3",
+      name: "Marko Kova\u010d",
+      specialty: "Barber",
+      bio: "Poznat po fade tehnikama, savr\u0161enim prijelazima i modernim stilovima.",
+      image:
+        "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400",
+    },
   ],
   reviews: [
     {
       name: "David K.",
-      text: "Najbolje iskustvo šišanja u gradu. Ivan je majstor svog zanata. Atmosfera je vrhunska.",
-      rating: 5
+      text: "Najbolje iskustvo \u0161i\u0161anja u gradu. Ivan je majstor svog zanata. Atmosfera je vrhunska.",
+      rating: 5,
     },
     {
       name: "Sanjin M.",
-      text: "Marko mi je potpuno transformirao frizuru. Konačno frizerski salon koji zaista sluša klijente.",
-      rating: 5
+      text: "Marko mi je potpuno transformirao frizuru. Kona\u010dno salon koji zaista slu\u0161a klijente.",
+      rating: 5,
     },
     {
       name: "Mihael R.",
-      text: "Premium usluga od početka do kraja. Topla preporuka svima u Rijeci.",
-      rating: 5
-    }
+      text: "Premium usluga od po\u010detka do kraja. Topla preporuka svima u Rijeci.",
+      rating: 5,
+    },
   ],
   gallery: [
-    'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1532710093739-9470acff878f?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80&w=800'
+    "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1532710093739-9470acff878f?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=800",
+    "https://images.unsplash.com/photo-1516733725897-1aa73b87c8e8?auto=format&fit=crop&q=80&w=800",
   ],
   contact: {
-    address: 'Ulica..., Rijeka, 51000 HR',
-    phone: '+385-XX-XXX-XXXX',
-    email: 'info@faderoom.hr',
+    address: "Ulica ..., Rijeka, 51000 HR",
+    phone: "+385-XX-XXX-XXXX",
+    email: "info@faderoom.hr",
     social: {
-      instagram: 'https://instagram.com/faderoom',
-      facebook: 'https://facebook.com/faderoom'
-    }
+      instagram: "https://instagram.com/faderoom",
+      facebook: "https://facebook.com/faderoom",
+    },
   },
   hours: {
-    mon_fri: '09:00 - 20:00',
-    sat: '09:00 - 15:00',
-    sun: 'Zatvoreno'
+    mon_fri: "09:00 - 20:00",
+    sat: "09:00 - 15:00",
+    sun: "Zatvoreno",
   },
   theme: {
-    primaryColor: 'zinc-100',
-    secondaryColor: 'zinc-950'
-  }
+    primaryColor: "zinc-100",
+    secondaryColor: "zinc-950",
+  },
 };

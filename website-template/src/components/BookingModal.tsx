@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+"use client";
+
+import React, { useMemo, useState } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, Scissors, ArrowRight } from 'lucide-react';
 import { Appointment, businessData } from '../config/business-config';
@@ -15,50 +18,110 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
   const [selectedStylist, setSelectedStylist] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [clientName, setClientName] = useState('');
+  const [clientEmail, setClientEmail] = useState('');
+  const [clientPhone, setClientPhone] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const services = businessData.services;
   const stylists = businessData.stylists;
   const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+  const minDate = useMemo(() => new Date().toISOString().split('T')[0], []);
+
+  const resetForm = () => {
+    setStep(1);
+    setSelectedService('');
+    setSelectedStylist('');
+    setSelectedDate('');
+    setSelectedTime('');
+    setClientName('');
+    setClientEmail('');
+    setClientPhone('');
+    setErrorMessage('');
+    setIsSubmitting(false);
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
 
   const handleComplete = async () => {
-    const stylist = stylists.find(s => s.id === selectedStylist);
-    const service = services.find(s => s.id === selectedService);
-    
-    if (stylist && service) {
-      // Parse price "20,00 €" -> 2000
-      const priceInCents = parseInt(service.price.replace(/[^\d]/g, "")) * 100 || 0;
+    const stylist = stylists.find((s) => s.id === selectedStylist);
+    const service = services.find((s) => s.id === selectedService);
 
-      try {
-        const response = await fetch("/api/reservations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            clientName: "Test Klijent", // In real version we should ask for name/email/phone
-            clientEmail: "test@example.com",
-            clientPhone: "0912345678",
-            service: service.name,
-            price: priceInCents,
-            date: new Date(`${selectedDate}T${selectedTime}`),
-            notes: `Frizer: ${stylist.name}`,
-          }),
-        });
+    if (!stylist || !service) {
+      setErrorMessage('Odaberite uslugu i frizera prije potvrde rezervacije.');
+      return;
+    }
 
-        if (response.ok) {
-          const newBookingData = await response.json();
-          // We can still trigger local state if needed for UI, but the source of truth is now DB
-          onBookingComplete(newBookingData);
-          onClose();
-          // Reset state
-          setStep(1);
-          setSelectedService('');
-          setSelectedStylist('');
-          setSelectedDate('');
-          setSelectedTime('');
-        }
-      } catch (error) {
-        console.error("Greška pri rezervaciji:", error);
-        alert("Došlo je do greške. Molimo pokušajte ponovo.");
+    if (!selectedDate || !selectedTime) {
+      setErrorMessage('Odaberite datum i vrijeme termina.');
+      return;
+    }
+
+    if (!clientName.trim() || !clientEmail.trim() || !clientPhone.trim()) {
+      setErrorMessage('Unesite ime, e-mail i broj telefona za potvrdu rezervacije.');
+      return;
+    }
+
+    const normalizedPrice = Number.parseFloat(
+      service.price.replace(',', '.').replace(/[^\d.]/g, '')
+    );
+    const priceInCents = Number.isFinite(normalizedPrice)
+      ? Math.round(normalizedPrice * 100)
+      : 0;
+    const reservationDate = new Date(`${selectedDate}T${selectedTime}:00`);
+
+    if (Number.isNaN(reservationDate.getTime())) {
+      setErrorMessage('Odabrani datum ili vrijeme nisu ispravni.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/reservations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clientName: clientName.trim(),
+          clientEmail: clientEmail.trim(),
+          clientPhone: clientPhone.trim(),
+          service: service.name,
+          price: priceInCents,
+          date: reservationDate.toISOString(),
+          notes: `Frizer: ${stylist.name}`,
+        }),
+      });
+
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        setErrorMessage(
+          payload?.error || 'Do\u0161lo je do gre\u0161ke pri rezervaciji. Molimo poku\u0161ajte ponovo.'
+        );
+        return;
       }
+
+      onBookingComplete({
+        id: payload?.id ?? `${selectedDate}-${selectedTime}-${selectedStylist}`,
+        date: selectedDate,
+        time: selectedTime,
+        service: service.name,
+        stylistId: stylist.id,
+        stylistName: stylist.name,
+        price: service.price,
+        status: 'upcoming',
+      });
+      handleClose();
+    } catch (error) {
+      console.error('Gre\u0161ka pri rezervaciji:', error);
+      setErrorMessage('Do\u0161lo je do gre\u0161ke pri rezervaciji. Molimo poku\u0161ajte ponovo.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -70,47 +133,62 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={handleClose}
             className="absolute inset-0 bg-black/90 backdrop-blur-xl"
           />
-          
+
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-2xl bg-zinc-950 border border-white/10 rounded-[40px] overflow-hidden shadow-2xl"
+            className="relative w-full max-w-2xl overflow-hidden rounded-[40px] border border-white/10 bg-zinc-950 shadow-2xl"
           >
-            <div className="flex justify-between items-center p-8 border-b border-white/5">
+            <div className="flex items-center justify-between border-b border-white/5 p-8">
               <div>
-                <h2 className="text-2xl font-light text-white">Rezerviraj Termin</h2>
-                <div className="flex gap-2 mt-2">
-                  {[1, 2, 3, 4].map(s => (
-                    <div key={s} className={`h-1 w-8 rounded-full transition-colors ${s <= step ? 'bg-amber-500' : 'bg-white/10'}`} />
+                <h2 className="text-2xl font-light text-white">Rezerviraj termin</h2>
+                <div className="mt-2 flex gap-2">
+                  {[1, 2, 3, 4].map((s) => (
+                    <div
+                      key={s}
+                      className={`h-1 w-8 rounded-full transition-colors ${s <= step ? 'bg-amber-500' : 'bg-white/10'}`}
+                    />
                   ))}
                 </div>
               </div>
-              <button 
-                onClick={onClose} 
-                className="w-12 h-12 bg-white/5 hover:bg-white/10 rounded-full flex items-center justify-center transition-all"
+              <button
+                onClick={handleClose}
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 transition-all hover:bg-white/10"
               >
-                <X className="w-5 h-5 text-white" />
+                <X className="h-5 w-5 text-white" />
               </button>
             </div>
 
-            <div className="p-8 h-[500px] custom-scrollbar overflow-y-auto">
+            <div className="custom-scrollbar h-[500px] overflow-y-auto p-8">
+              {errorMessage && (
+                <div className="mb-6 rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+                  {errorMessage}
+                </div>
+              )}
+
               {step === 1 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Odaberi Uslugu</h3>
+                  <h3 className="mb-6 px-2 text-xs font-bold uppercase tracking-widest text-amber-500">
+                    Odaberi uslugu
+                  </h3>
                   <div className="grid grid-cols-1 gap-3">
-                    {services.map(s => (
+                    {services.map((service) => (
                       <button
-                        key={s.id}
-                        onClick={() => { setSelectedService(s.id); setStep(2); }}
-                        className={`group p-6 rounded-3xl border text-left transition-all ${selectedService === s.id ? 'bg-amber-500 border-amber-500 text-black' : 'bg-white/5 border-white/5 hover:bg-white/10 text-white'}`}
+                        key={service.id}
+                        onClick={() => {
+                          setErrorMessage('');
+                          setSelectedService(service.id);
+                          setStep(2);
+                        }}
+                        className={`group rounded-3xl border p-6 text-left transition-all ${selectedService === service.id ? 'border-amber-500 bg-amber-500 text-black' : 'border-white/5 bg-white/5 text-white hover:bg-white/10'}`}
                       >
-                        <div className="flex justify-between items-center">
-                          <span className="font-bold tracking-tight text-lg">{s.name}</span>
-                          <span className="font-mono">{s.price}</span>
+                        <div className="flex items-center justify-between">
+                          <span className="text-lg font-bold tracking-tight">{service.name}</span>
+                          <span className="font-mono">{service.price}</span>
                         </div>
                       </button>
                     ))}
@@ -120,18 +198,36 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
 
               {step === 2 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Odaberi Majstora</h3>
+                  <h3 className="mb-6 px-2 text-xs font-bold uppercase tracking-widest text-amber-500">
+                    Odaberi majstora
+                  </h3>
                   <div className="grid grid-cols-1 gap-3">
-                    {stylists.map(s => (
+                    {stylists.map((stylist) => (
                       <button
-                        key={s.id}
-                        onClick={() => { setSelectedStylist(s.id); setStep(3); }}
-                        className={`group p-4 rounded-3xl border flex items-center gap-4 transition-all ${selectedStylist === s.id ? 'bg-amber-500 border-amber-500 text-black' : 'bg-white/5 border-white/5 hover:bg-white/10 text-white'}`}
+                        key={stylist.id}
+                        onClick={() => {
+                          setErrorMessage('');
+                          setSelectedStylist(stylist.id);
+                          setStep(3);
+                        }}
+                        className={`group flex items-center gap-4 rounded-3xl border p-4 transition-all ${selectedStylist === stylist.id ? 'border-amber-500 bg-amber-500 text-black' : 'border-white/5 bg-white/5 text-white hover:bg-white/10'}`}
                       >
-                        <img src={s.image} alt={s.name} className="w-14 h-14 rounded-full object-cover grayscale-0" />
+                        <Image
+                          src={stylist.image}
+                          alt={stylist.name}
+                          width={56}
+                          height={56}
+                          sizes="56px"
+                          className="h-14 w-14 rounded-full object-cover"
+                          referrerPolicy="no-referrer"
+                        />
                         <div className="text-left">
-                          <p className="font-bold">{s.name}</p>
-                          <p className={`text-xs uppercase tracking-widest ${selectedStylist === s.id ? 'text-black/60' : 'text-amber-500'}`}>{s.specialty}</p>
+                          <p className="font-bold">{stylist.name}</p>
+                          <p
+                            className={`text-xs uppercase tracking-widest ${selectedStylist === stylist.id ? 'text-black/60' : 'text-amber-500'}`}
+                          >
+                            {stylist.specialty}
+                          </p>
                         </div>
                       </button>
                     ))}
@@ -141,21 +237,37 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
 
               {step === 3 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <h3 className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-6 px-2">Odaberi Datum i Vrijeme</h3>
+                  <h3 className="mb-6 px-2 text-xs font-bold uppercase tracking-widest text-amber-500">
+                    Odaberi datum i vrijeme
+                  </h3>
                   <div className="grid gap-8">
-                    <input 
-                      type="date" 
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-                      onChange={(e) => setSelectedDate(e.target.value)}
+                    <input
+                      type="date"
+                      min={minDate}
+                      value={selectedDate}
+                      className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                      onChange={(e) => {
+                        setErrorMessage('');
+                        setSelectedDate(e.target.value);
+                      }}
                     />
                     <div className="grid grid-cols-4 gap-2">
-                      {timeSlots.map(t => (
+                      {timeSlots.map((time) => (
                         <button
-                          key={t}
-                          onClick={() => { setSelectedTime(t); setStep(4); }}
-                          className={`p-3 rounded-xl border text-center transition-all ${selectedTime === t ? 'bg-amber-500 border-amber-500 text-black' : 'bg-white/5 border-white/5 hover:bg-white/10 text-white'}`}
+                          key={time}
+                          onClick={() => {
+                            if (!selectedDate) {
+                              setErrorMessage('Prvo odaberite datum, a zatim vrijeme.');
+                              return;
+                            }
+
+                            setErrorMessage('');
+                            setSelectedTime(time);
+                            setStep(4);
+                          }}
+                          className={`rounded-xl border p-3 text-center transition-all ${selectedTime === time ? 'border-amber-500 bg-amber-500 text-black' : 'border-white/5 bg-white/5 text-white hover:bg-white/10'}`}
                         >
-                          {t}
+                          {time}
                         </button>
                       ))}
                     </div>
@@ -164,33 +276,71 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
               )}
 
               {step === 4 && (
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="text-center py-10">
-                  <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-8">
-                    <Scissors className="w-10 h-10 text-amber-500" />
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="py-10 text-center">
+                  <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-amber-500/10">
+                    <Scissors className="h-10 w-10 text-amber-500" />
                   </div>
-                  <h3 className="text-3xl text-white font-light mb-4">Potvrdi Odabir</h3>
-                  <div className="bg-white/5 rounded-[32px] p-8 max-w-sm mx-auto space-y-4 border border-white/5">
-                    <p className="text-white/60 text-sm">{services.find(s => s.id === selectedService)?.name}</p>
-                    <p className="text-amber-500 font-bold text-xl">s {stylists.find(s => s.id === selectedStylist)?.name}</p>
-                    <div className="flex justify-center gap-4 text-white/40 text-sm">
-                      <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {selectedDate}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {selectedTime}</span>
+                  <h3 className="mb-4 text-3xl font-light text-white">Potvrdi odabir</h3>
+                  <div className="mx-auto max-w-sm space-y-4 rounded-[32px] border border-white/5 bg-white/5 p-8">
+                    <p className="text-sm text-white/60">{services.find((s) => s.id === selectedService)?.name}</p>
+                    <p className="text-xl font-bold text-amber-500">
+                      s {stylists.find((s) => s.id === selectedStylist)?.name}
+                    </p>
+                    <div className="flex justify-center gap-4 text-sm text-white/40">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" /> {selectedDate}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" /> {selectedTime}
+                      </span>
                     </div>
-                    <p className="text-3xl text-white font-mono mt-4">{services.find(s => s.id === selectedService)?.price}</p>
+                    <p className="mt-4 font-mono text-3xl text-white">
+                      {services.find((s) => s.id === selectedService)?.price}
+                    </p>
                   </div>
+
+                  <div className="mx-auto mt-8 grid max-w-md gap-4 text-left">
+                    <input
+                      type="text"
+                      value={clientName}
+                      onChange={(e) => setClientName(e.target.value)}
+                      placeholder="Ime i prezime"
+                      className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    />
+                    <input
+                      type="email"
+                      value={clientEmail}
+                      onChange={(e) => setClientEmail(e.target.value)}
+                      placeholder="E-mail adresa"
+                      className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    />
+                    <input
+                      type="tel"
+                      value={clientPhone}
+                      onChange={(e) => setClientPhone(e.target.value)}
+                      placeholder="Broj telefona"
+                      className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    />
+                  </div>
+
                   <button
                     onClick={handleComplete}
-                    className="mt-12 w-full bg-amber-500 text-black py-5 rounded-full font-bold uppercase tracking-widest hover:bg-amber-600 transition-all flex items-center justify-center gap-3"
+                    disabled={isSubmitting}
+                    className="mt-12 flex w-full items-center justify-center gap-3 rounded-full bg-amber-500 py-5 font-bold uppercase tracking-widest text-black transition-all hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    Potvrdi Rezervaciju <ArrowRight className="w-5 h-5" />
+                    {isSubmitting ? 'Spremanje...' : 'Potvrdi rezervaciju'}
+                    <ArrowRight className="h-5 w-5" />
                   </button>
                 </motion.div>
               )}
             </div>
 
             {step > 1 && step < 4 && (
-              <div className="p-8 border-t border-white/5 flex justify-start">
-                <button onClick={() => setStep(step - 1)} className="text-white/40 text-xs uppercase tracking-widest font-bold hover:text-white transition-colors">
+              <div className="flex justify-start border-t border-white/5 p-8">
+                <button
+                  onClick={() => setStep(step - 1)}
+                  className="text-xs font-bold uppercase tracking-widest text-white/40 transition-colors hover:text-white"
+                >
                   Nazad
                 </button>
               </div>

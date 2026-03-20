@@ -6,15 +6,16 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!session || (session.user as any)?.role !== "admin") {
+  const role = (session?.user as any)?.role;
+  const normalizedRole =
+    typeof role === "string" ? role.trim().toLowerCase() : role;
+
+  if (!session || normalizedRole !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { searchParams } = new URL(request.url);
   const status = searchParams.get("status");
-
   const filter = status ? { status } : {};
 
   try {
@@ -24,26 +25,49 @@ export async function GET(request: Request) {
     });
     return NextResponse.json(reservations);
   } catch {
-    return NextResponse.json({ error: "Greška pri dohvaćanju rezervacija" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Gre\u0161ka pri dohva\u0107anju rezervacija" },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request: Request) {
   try {
     const data = await request.json();
+    const reservationDate = new Date(data.date);
+
+    if (
+      !data.clientName ||
+      !data.clientEmail ||
+      !data.clientPhone ||
+      !data.service ||
+      !Number.isInteger(data.price) ||
+      Number.isNaN(reservationDate.getTime())
+    ) {
+      return NextResponse.json(
+        { error: "Nedostaju obavezni podaci za rezervaciju." },
+        { status: 400 }
+      );
+    }
+
     const reservation = await prisma.reservation.create({
       data: {
-        clientName: data.clientName,
-        clientEmail: data.clientEmail,
-        clientPhone: data.clientPhone,
-        service: data.service,
+        clientName: String(data.clientName).trim(),
+        clientEmail: String(data.clientEmail).trim(),
+        clientPhone: String(data.clientPhone).trim(),
+        service: String(data.service).trim(),
         price: data.price,
-        date: new Date(data.date),
-        notes: data.notes,
+        date: reservationDate,
+        notes: data.notes ? String(data.notes).trim() : null,
       },
     });
+
     return NextResponse.json(reservation, { status: 201 });
   } catch {
-    return NextResponse.json({ error: "Greška pri kreiranju rezervacije" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Gre\u0161ka pri kreiranju rezervacije" },
+      { status: 500 }
+    );
   }
 }

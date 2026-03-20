@@ -1,20 +1,21 @@
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { businessData } from '../config/business-config';
 
 export const TeamSection = () => {
   return (
-    <section id="team" className="py-24 bg-black px-6">
-      <div className="max-w-7xl mx-auto text-center">
+    <section id="team" className="bg-black px-6 py-24">
+      <div className="mx-auto max-w-7xl text-center">
         <div className="mb-16">
-          <h2 className="text-4xl font-light text-white mb-4">Upoznajte Majstore</h2>
-          <p className="text-white/50 max-w-xl mx-auto font-light leading-relaxed">
-            Naši majstori donose desetljeća iskustva i strast prema savršenstvu.
+          <h2 className="mb-4 text-4xl font-light text-white">Upoznajte majstore</h2>
+          <p className="mx-auto max-w-xl font-light leading-relaxed text-white/50">
+            Na\u0161i majstori donose desetlje\u0107a iskustva i strast prema savr\u0161enstvu.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
           {businessData.stylists.map((stylist, idx) => (
             <motion.div
               key={stylist.id}
@@ -22,24 +23,28 @@ export const TeamSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="text-center group"
+              className="group text-center"
               role="article"
             >
-              <div className="relative mb-6 inline-block">
-                <div className="absolute -inset-2 bg-amber-500 rounded-full opacity-0 group-hover:opacity-20 transition-all duration-500" />
-                <img
+              <div className="relative mb-6 inline-block h-48 w-48">
+                <div className="absolute -inset-2 rounded-full bg-amber-500 opacity-0 transition-all duration-500 group-hover:opacity-20" />
+                <Image
                   src={stylist.image}
                   alt={stylist.name}
-                  className="w-48 h-48 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 mx-auto border-4 border-zinc-900 shadow-2xl"
+                  fill
+                  sizes="192px"
+                  className="mx-auto rounded-full border-4 border-zinc-900 object-cover grayscale shadow-2xl transition-all duration-700 group-hover:grayscale-0"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute bottom-2 right-2 bg-amber-500 text-black p-2 rounded-full shadow-xl">
-                  <Star className="w-4 h-4 fill-current" aria-hidden="true" />
+                <div className="absolute bottom-2 right-2 rounded-full bg-amber-500 p-2 text-black shadow-xl">
+                  <Star className="h-4 w-4 fill-current" aria-hidden="true" />
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-1">{stylist.name}</h3>
-              <p className="text-amber-500 text-sm font-medium uppercase tracking-widest mb-4 tracking-[0.2em]">{stylist.specialty}</p>
-              <p className="text-white/40 text-sm leading-relaxed max-w-xs mx-auto italic font-light">
+              <h3 className="mb-1 text-xl font-bold text-white">{stylist.name}</h3>
+              <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-amber-500">
+                {stylist.specialty}
+              </p>
+              <p className="mx-auto max-w-xs text-sm font-light italic leading-relaxed text-white/40">
                 &quot;{stylist.bio}&quot;
               </p>
             </motion.div>

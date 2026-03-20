@@ -4,62 +4,78 @@ import { Appointment } from '../config/business-config';
 
 export const Dashboard = ({ bookings }: { bookings: Appointment[] }) => {
   return (
-    <div className="min-h-screen pt-32 pb-24 px-6 bg-black">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-8 items-start mb-16">
+    <div className="min-h-screen bg-black px-6 pb-24 pt-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-16 flex flex-col items-start gap-8 lg:flex-row">
           <div className="flex-1">
-            <h1 className="text-4xl text-white font-light mb-2">Nadzorna Ploča</h1>
-            <p className="text-white/40">Upravljajte svojim terminima i poviješću dolazaka.</p>
+            <h1 className="mb-2 text-4xl font-light text-white">Nadzorna plo\u010da</h1>
+            <p className="text-white/40">Upravljajte svojim terminima i povije\u0161\u0107u dolazaka.</p>
           </div>
-          <div className="flex items-center gap-4 bg-zinc-900/50 p-4 rounded-3xl border border-white/5">
-            <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center font-bold text-black text-xl">G</div>
+          <div className="flex items-center gap-4 rounded-3xl border border-white/5 bg-zinc-900/50 p-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500 text-xl font-bold text-black">
+              G
+            </div>
             <div>
-              <p className="text-white font-bold">Gost</p>
-              <p className="text-white/40 text-xs">GUEST@EXAMPLE.COM</p>
+              <p className="font-bold text-white">Gost</p>
+              <p className="text-xs text-white/40">GUEST@EXAMPLE.COM</p>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <div className="bg-zinc-950 border border-white/5 p-8 rounded-3xl">
-              <div className="flex items-center gap-3 mb-8">
-                <Calendar className="w-5 h-5 text-amber-500" />
-                <h2 className="text-white font-bold uppercase tracking-widest text-sm">Predstojeće</h2>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="space-y-8 lg:col-span-2">
+            <div className="rounded-3xl border border-white/5 bg-zinc-950 p-8">
+              <div className="mb-8 flex items-center gap-3">
+                <Calendar className="h-5 w-5 text-amber-500" />
+                <h2 className="text-sm font-bold uppercase tracking-widest text-white">
+                  Predstoje\u0107e
+                </h2>
               </div>
-              <div className="min-h-[160px] flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-2xl p-8 text-center bg-black/40">
-                <p className="text-white/20 italic mb-4 font-light">Nema zakazanih predstojećih termina.</p>
+              <div className="flex min-h-[160px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/5 bg-black/40 p-8 text-center">
+                <p className="mb-4 font-light italic text-white/20">
+                  Nema zakazanih predstoje\u0107ih termina.
+                </p>
               </div>
             </div>
 
-            <div className="bg-zinc-950 border border-white/5 p-8 rounded-3xl">
-              <div className="flex items-center gap-3 mb-8">
-                <History className="w-5 h-5 text-amber-500" />
-                <h2 className="text-white font-bold uppercase tracking-widest text-sm">Povijest</h2>
+            <div className="rounded-3xl border border-white/5 bg-zinc-950 p-8">
+              <div className="mb-8 flex items-center gap-3">
+                <History className="h-5 w-5 text-amber-500" />
+                <h2 className="text-sm font-bold uppercase tracking-widest text-white">
+                  Povijest
+                </h2>
               </div>
-              <div className="min-h-[200px] flex flex-col items-center justify-center border border-white/5 rounded-2xl p-8 bg-black/40">
-                <p className="text-white/20 italic font-light">Nema prošlih termina.</p>
+              <div className="flex min-h-[200px] flex-col items-center justify-center rounded-2xl border border-white/5 bg-black/40 p-8">
+                <p className="font-light italic text-white/20">Nema pro\u0161lih termina.</p>
               </div>
             </div>
           </div>
 
           <div className="space-y-8">
-            <div className="bg-zinc-900 border border-white/5 p-8 rounded-3xl">
-              <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-6">Brza Statistika</h3>
+            <div className="rounded-3xl border border-white/5 bg-zinc-900 p-8">
+              <h3 className="mb-6 text-sm font-bold uppercase tracking-widest text-white">
+                Brza statistika
+              </h3>
               <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <span className="text-white/40 text-xs uppercase tracking-widest">Ukupno Dolazaka</span>
-                  <span className="text-white font-mono text-xl">{bookings.length}</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs uppercase tracking-widest text-white/40">
+                    Ukupno dolazaka
+                  </span>
+                  <span className="font-mono text-xl text-white">{bookings.length}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-white/40 text-xs uppercase tracking-widest">Bodovi Vjernosti</span>
-                  <span className="text-amber-500 font-mono text-xl">{bookings.length * 150}</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs uppercase tracking-widest text-white/40">
+                    Bodovi vjernosti
+                  </span>
+                  <span className="font-mono text-xl text-amber-500">{bookings.length * 150}</span>
                 </div>
-                <div className="pt-4 border-t border-white/5">
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-500 w-[60%]" />
+                <div className="border-t border-white/5 pt-4">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full w-[60%] bg-amber-500" />
                   </div>
-                  <p className="text-[10px] text-white/40 mt-2 uppercase tracking-widest">Još 4 dolaska do besplatnog šišanja</p>
+                  <p className="mt-2 text-[10px] uppercase tracking-widest text-white/40">
+                    Jo\u0161 4 dolaska do besplatnog \u0161i\u0161anja
+                  </p>
                 </div>
               </div>
             </div>

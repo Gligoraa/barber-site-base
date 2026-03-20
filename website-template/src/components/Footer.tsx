@@ -4,54 +4,61 @@ import { businessData } from '../config/business-config';
 
 export const Footer = () => {
   return (
-    <footer className="bg-black pt-32 pb-12 px-6 border-t border-white/5">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-16 mb-24">
+    <footer className="border-t border-white/5 bg-black px-6 pb-12 pt-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-24 grid grid-cols-1 gap-16 lg:grid-cols-4">
           <div className="col-span-1 lg:col-span-2">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 bg-amber-500 text-black rounded-full flex items-center justify-center font-black rotate-12">
-                <Scissors className="w-5 h-5" />
+            <div className="mb-8 flex items-center gap-3">
+              <div className="flex h-10 w-10 rotate-12 items-center justify-center rounded-full bg-amber-500 text-black">
+                <Scissors className="h-5 w-5" />
               </div>
-              <span className="text-2xl font-black text-white uppercase tracking-tighter">{businessData.name}</span>
+              <span className="text-2xl font-black uppercase tracking-tighter text-white">
+                {businessData.name}
+              </span>
             </div>
-            <p className="text-white/40 text-lg font-light leading-relaxed mb-10 max-w-sm">
-              Premium usluga za modernog muškarca. Spajamo tradicionalne tehnike sa suvremenim stilom kako bismo pružili neponovljivo iskustvo.
+            <p className="mb-10 max-w-sm text-lg font-light leading-relaxed text-white/40">
+              Premium usluga za modernog mu\u0161karca. Spajamo tradicionalne tehnike sa suvremenim
+              stilom kako bismo pru\u017eili neponovljivo iskustvo.
             </p>
             <div className="flex gap-4">
-              <a 
-                href={businessData.contact.social.instagram} 
-                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all focus:ring-2 focus:ring-amber-500"
+              <a
+                href={businessData.contact.social.instagram}
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-white/40 transition-all hover:border-amber-500 hover:bg-amber-500/10 hover:text-white focus:ring-2 focus:ring-amber-500"
                 aria-label={`Follow ${businessData.name} on Instagram`}
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="h-5 w-5" />
               </a>
-              <a 
-                href={businessData.contact.social.facebook} 
-                className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-amber-500 hover:bg-amber-500/10 transition-all focus:ring-2 focus:ring-amber-500"
+              <a
+                href={businessData.contact.social.facebook}
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-white/40 transition-all hover:border-amber-500 hover:bg-amber-500/10 hover:text-white focus:ring-2 focus:ring-amber-500"
                 aria-label={`Follow ${businessData.name} on Facebook`}
               >
-                <Facebook className="w-5 h-5" />
+                <Facebook className="h-5 w-5" />
               </a>
             </div>
           </div>
 
           <div>
-            <h4 className="text-amber-500 font-bold uppercase tracking-[0.2em] mb-10 text-sm">Lokacija</h4>
+            <h4 className="mb-10 text-sm font-bold uppercase tracking-[0.2em] text-amber-500">
+              Lokacija
+            </h4>
             <div className="space-y-6">
-              <div className="flex gap-4 items-start text-white/60">
-                <MapPin className="w-5 h-5 text-amber-500 shrink-0" />
+              <div className="flex items-start gap-4 text-white/60">
+                <MapPin className="h-5 w-5 shrink-0 text-amber-500" />
                 <p className="font-light">{businessData.contact.address}</p>
               </div>
-              <div className="flex gap-4 items-center text-white/60">
-                <Phone className="w-5 h-5 text-amber-500 shrink-0" />
+              <div className="flex items-center gap-4 text-white/60">
+                <Phone className="h-5 w-5 shrink-0 text-amber-500" />
                 <p className="font-light">{businessData.contact.phone}</p>
               </div>
             </div>
           </div>
 
           <div>
-            <h4 className="text-amber-500 font-bold uppercase tracking-[0.2em] mb-10 text-sm">Radno Vrijeme</h4>
-            <div className="space-y-4 text-white/60 font-light font-mono text-sm leading-relaxed">
+            <h4 className="mb-10 text-sm font-bold uppercase tracking-[0.2em] text-amber-500">
+              Radno vrijeme
+            </h4>
+            <div className="space-y-4 font-mono text-sm font-light leading-relaxed text-white/60">
               <div className="flex justify-between">
                 <span>Pon - Pet</span>
                 <span>{businessData.hours.mon_fri}</span>
@@ -68,13 +75,17 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-white/20 text-xs uppercase tracking-widest">
-            © 2026 {businessData.name} Frizerski salon. Sva prava pridržana.
+        <div className="flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-12 md:flex-row">
+          <p className="text-xs uppercase tracking-widest text-white/20">
+            \u00a9 2026 {businessData.name} Frizerski salon. Sva prava pridr\u017eana.
           </p>
-          <div className="flex gap-8 text-white/20 text-[10px] uppercase tracking-widest font-bold">
-            <a href="#" className="hover:text-white transition-colors">Pravila Privatnosti</a>
-            <a href="#" className="hover:text-white transition-colors">Uvjeti Korištenja</a>
+          <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-white/20">
+            <a href="#" className="transition-colors hover:text-white">
+              Pravila privatnosti
+            </a>
+            <a href="#" className="transition-colors hover:text-white">
+              Uvjeti kori\u0161tenja
+            </a>
           </div>
         </div>
       </div>

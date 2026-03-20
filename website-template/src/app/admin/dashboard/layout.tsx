@@ -6,14 +6,11 @@ import { authOptions } from "@/lib/auth";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const session = await getServerSession(authOptions);
-  console.log("DEBUG: Dashboard Layout Session found:", !!session, (session?.user as any)?.email);
-
   const role = (session?.user as any)?.role;
   const normalizedRole =
     typeof role === "string" ? role.trim().toLowerCase() : role;
 
   if (!session || normalizedRole !== "admin") {
-    console.log("DEBUG: Redirecting back to login from dashboard layout because session is missing or role is wrong.");
     redirect("/admin/login");
   }
 
