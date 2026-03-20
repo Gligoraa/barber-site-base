@@ -11,6 +11,8 @@ async function main() {
     where: { email: adminEmail },
     update: {
       passwordHash: hashedPassword,
+      // Ensure existing admin rows keep the correct authorization role.
+      role: "admin",
     },
     create: {
       email: adminEmail,

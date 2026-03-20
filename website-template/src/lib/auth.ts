@@ -1,4 +1,7 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, type User } from "next-auth";
+import type { AdapterUser } from "next-auth/adapters";
+import type { Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
@@ -44,28 +47,24 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }: any) {
-      if (user) {
-        token.role = user.role;
-      }
+    async jwt({
+      token,
+      user,
+    }: {
+      token: JWT;
+      // Credentials authorize() returns a plain object; we only care about role here.
+      user?:
+        | ((User | AdapterUser) & { role?: string })
+        | undefined;
+    }) {
+      if (user?.role) (token as { role?: string }).role = user.role;
       return token;
     },
-    async session({ session, token }: any) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user) {
-        session.user.role = token.role;
+        (session.user as { role?: string }).role = (token as { role?: string }).role;
       }
       return session;
-    },
-  },
-  cookies: {
-    sessionToken: {
-      name: process.env.NODE_ENV === "production" ? `__Secure-next-auth.session-token` : `next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
     },
   },
   pages: {

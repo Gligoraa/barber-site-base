@@ -2,9 +2,10 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/lib/auth";
 
 export async function GET(request: Request) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!session || (session.user as any)?.role !== "admin") {

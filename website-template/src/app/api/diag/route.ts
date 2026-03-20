@@ -17,11 +17,12 @@ export async function GET() {
         urlValue: process.env.NEXTAUTH_URL,
       }
     });
-  } catch (error: any) {
+  } catch (error) {
+    const err = error as Error;
     return NextResponse.json({
       status: "Configuration error",
-      error: error.message,
-      stack: error.stack,
+      error: err.message,
+      stack: err.stack,
       hint: "Check if your Vercel Environment Variables (DATABASE_URL) are set correctly with the encoded password.",
     }, { status: 500 });
   }
