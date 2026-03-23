@@ -8,8 +8,8 @@ export const Dashboard = ({ bookings }: { bookings: Appointment[] }) => {
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 flex flex-col items-start gap-8 lg:flex-row">
           <div className="flex-1">
-            <h1 className="mb-2 text-4xl font-light text-white">Nadzorna plo\u010da</h1>
-            <p className="text-white/40">Upravljajte svojim terminima i povije\u0161\u0107u dolazaka.</p>
+            <h1 className="mb-2 text-4xl font-light text-white">{'Nadzorna plo\u010da'}</h1>
+            <p className="text-white/40">{'Upravljajte svojim terminima i povije\u0161\u0107u dolazaka.'}</p>
           </div>
           <div className="flex items-center gap-4 rounded-3xl border border-white/5 bg-zinc-900/50 p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500 text-xl font-bold text-black">
@@ -28,12 +28,12 @@ export const Dashboard = ({ bookings }: { bookings: Appointment[] }) => {
               <div className="mb-8 flex items-center gap-3">
                 <Calendar className="h-5 w-5 text-amber-500" />
                 <h2 className="text-sm font-bold uppercase tracking-widest text-white">
-                  Predstoje\u0107e
+                  {'Predstoje\u0107e'}
                 </h2>
               </div>
               <div className="flex min-h-[160px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/5 bg-black/40 p-8 text-center">
                 <p className="mb-4 font-light italic text-white/20">
-                  Nema zakazanih predstoje\u0107ih termina.
+                  {'Nema zakazanih predstoje\u0107ih termina.'}
                 </p>
               </div>
             </div>
@@ -46,7 +46,7 @@ export const Dashboard = ({ bookings }: { bookings: Appointment[] }) => {
                 </h2>
               </div>
               <div className="flex min-h-[200px] flex-col items-center justify-center rounded-2xl border border-white/5 bg-black/40 p-8">
-                <p className="font-light italic text-white/20">Nema pro\u0161lih termina.</p>
+                <p className="font-light italic text-white/20">{'Nema pro\u0161lih termina.'}</p>
               </div>
             </div>
           </div>
@@ -74,7 +74,7 @@ export const Dashboard = ({ bookings }: { bookings: Appointment[] }) => {
                     <div className="h-full w-[60%] bg-amber-500" />
                   </div>
                   <p className="mt-2 text-[10px] uppercase tracking-widest text-white/40">
-                    Jo\u0161 4 dolaska do besplatnog \u0161i\u0161anja
+                    {'Jo\u0161 4 dolaska do besplatnog \u0161i\u0161anja'}
                   </p>
                 </div>
               </div>

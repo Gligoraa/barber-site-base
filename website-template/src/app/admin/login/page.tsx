@@ -33,7 +33,7 @@ export default function AdminLoginPage() {
         <div className="mb-8 text-center">
           <h1 className="mb-2 text-2xl font-light text-white">Prijava za administratore</h1>
           <p className="text-sm text-white/40">
-            Unesite svoje podatke za pristup nadzornoj plo\u010di
+            {'Unesite svoje podatke za pristup nadzornoj plo\u010di'}
           </p>
         </div>
 

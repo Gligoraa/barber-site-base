@@ -11,7 +11,7 @@ export const TeamSection = () => {
         <div className="mb-16">
           <h2 className="mb-4 text-4xl font-light text-white">Upoznajte majstore</h2>
           <p className="mx-auto max-w-xl font-light leading-relaxed text-white/50">
-            Na\u0161i majstori donose desetlje\u0107a iskustva i strast prema savr\u0161enstvu.
+            {'Na\u0161i majstori donose desetlje\u0107a iskustva i strast prema savr\u0161enstvu.'}
           </p>
         </div>
 

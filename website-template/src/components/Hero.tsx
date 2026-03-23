@@ -55,7 +55,7 @@ export const Hero = ({ onBookClick }: HeroProps) => {
               className="flex w-full items-center justify-center gap-2 rounded-full border border-white/20 px-10 py-4 text-sm font-bold uppercase tracking-widest text-white transition-all hover:bg-white/10 sm:w-auto"
               aria-label="Learn about our quality promise"
             >
-              Na\u0161a filozofija
+              {'Na\u0161a filozofija'}
             </a>
           </div>
         </motion.div>

@@ -17,8 +17,7 @@ export const Footer = () => {
               </span>
             </div>
             <p className="mb-10 max-w-sm text-lg font-light leading-relaxed text-white/40">
-              Premium usluga za modernog mu\u0161karca. Spajamo tradicionalne tehnike sa suvremenim
-              stilom kako bismo pru\u017eili neponovljivo iskustvo.
+              {'Premium usluga za modernog mu\u0161karca. Spajamo tradicionalne tehnike sa suvremenim stilom kako bismo pru\u017eili neponovljivo iskustvo.'}
             </p>
             <div className="flex gap-4">
               <a
@@ -77,14 +76,14 @@ export const Footer = () => {
 
         <div className="flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-12 md:flex-row">
           <p className="text-xs uppercase tracking-widest text-white/20">
-            \u00a9 2026 {businessData.name} Frizerski salon. Sva prava pridr\u017eana.
+            {'\u00a9 2026 '}{businessData.name}{' Frizerski salon. Sva prava pridr\u017eana.'}
           </p>
           <div className="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-white/20">
             <a href="#" className="transition-colors hover:text-white">
               Pravila privatnosti
             </a>
             <a href="#" className="transition-colors hover:text-white">
-              Uvjeti kori\u0161tenja
+              {'Uvjeti kori\u0161tenja'}
             </a>
           </div>
         </div>

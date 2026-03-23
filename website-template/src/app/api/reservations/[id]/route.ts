@@ -15,25 +15,73 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   }
 
   try {
-    const { status } = await request.json();
+    const data = await request.json();
+    const { status } = data;
     const allowedStatuses = ["pending", "confirmed", "completed", "cancelled"];
 
-    if (!allowedStatuses.includes(status)) {
+    if (typeof status !== "string" || !allowedStatuses.includes(status)) {
       return NextResponse.json(
         { error: "Neispravan status rezervacije" },
         { status: 400 }
       );
     }
 
+    const updateData: {
+      status: string;
+      clientName?: string;
+      clientEmail?: string;
+      clientPhone?: string;
+      service?: string;
+      price?: number;
+      date?: Date;
+      notes?: string | null;
+    } = {
+      status,
+    };
+
+    if (
+      "clientName" in data ||
+      "clientEmail" in data ||
+      "clientPhone" in data ||
+      "service" in data ||
+      "price" in data ||
+      "date" in data ||
+      "notes" in data
+    ) {
+      const reservationDate = new Date(data.date);
+
+      if (
+        !data.clientName ||
+        !data.clientEmail ||
+        !data.clientPhone ||
+        !data.service ||
+        !Number.isInteger(data.price) ||
+        Number.isNaN(reservationDate.getTime())
+      ) {
+        return NextResponse.json(
+          { error: "Nedostaju obavezni podaci za ažuriranje termina" },
+          { status: 400 }
+        );
+      }
+
+      updateData.clientName = String(data.clientName).trim();
+      updateData.clientEmail = String(data.clientEmail).trim();
+      updateData.clientPhone = String(data.clientPhone).trim();
+      updateData.service = String(data.service).trim();
+      updateData.price = data.price;
+      updateData.date = reservationDate;
+      updateData.notes = data.notes ? String(data.notes).trim() : null;
+    }
+
     const updated = await prisma.reservation.update({
       where: { id: params.id },
-      data: { status },
+      data: updateData,
     });
 
     return NextResponse.json(updated);
   } catch {
     return NextResponse.json(
-      { error: "Gre\u0161ka pri a\u017euriranju rezervacije" },
+      { error: "Greška pri ažuriranju rezervacije" },
       { status: 500 }
     );
   }
@@ -59,7 +107,7 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
-      { error: "Gre\u0161ka pri brisanju rezervacije" },
+      { error: "Greška pri brisanju rezervacije" },
       { status: 500 }
     );
   }

@@ -9,11 +9,10 @@ export const ServicesSection = () => {
       <div className="mx-auto max-w-7xl">
         <div className="mb-20">
           <h2 className="mb-6 text-4xl font-light text-white md:text-5xl">
-            Na\u0161e <span className="font-serif italic text-amber-500">usluge</span>
+            {'Na\u0161e '}<span className="font-serif italic text-amber-500">usluge</span>
           </h2>
           <p className="max-w-xl font-light leading-relaxed text-white/40">
-            Od preciznog oblikovanja brade do potpunih modernih transformacija, na\u0161e usluge
-            su prilago\u0111ene jedinstvenim crtama svakog klijenta.
+            {'Od preciznog oblikovanja brade do potpunih modernih transformacija, na\u0161e usluge su prilago\u0111ene jedinstvenim crtama svakog klijenta.'}
           </p>
         </div>
 
