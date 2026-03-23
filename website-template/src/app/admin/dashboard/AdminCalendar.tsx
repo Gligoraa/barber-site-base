@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   addMonths,
   eachDayOfInterval,
@@ -28,6 +28,8 @@ import {
   X,
 } from "lucide-react";
 import { businessData } from "@/config/business-config";
+import DatePopover from "@/components/DatePopover";
+import { formatDateKey, getAvailableTimeSlots, TIME_SLOTS } from "@/lib/availability";
 
 type ReservationStatus = "pending" | "confirmed" | "completed" | "cancelled";
 
@@ -161,6 +163,44 @@ export default function AdminCalendar({
         .reduce((sum, reservation) => sum + reservation.price, 0),
     };
   }, [currentMonth, reservations]);
+
+  const adminBookedTimes = useMemo(() => {
+    return reservations
+      .filter((reservation) => {
+        if (reservation.status === "cancelled") {
+          return false;
+        }
+
+        if (editingId && reservation.id === editingId) {
+          return false;
+        }
+
+        return formatDateKey(reservation.date) === form.date;
+      })
+      .map((reservation) => format(parseISO(reservation.date), "HH:mm"));
+  }, [editingId, form.date, reservations]);
+
+  const adminAvailableTimes = useMemo(
+    () =>
+      getAvailableTimeSlots(adminBookedTimes, {
+        excludeTime: editingId ? form.time : undefined,
+      }),
+    [adminBookedTimes, editingId, form.time]
+  );
+
+  useEffect(() => {
+    if (!form.time) {
+      return;
+    }
+
+    if (editingId) {
+      return;
+    }
+
+    if (!adminAvailableTimes.includes(form.time)) {
+      setForm((current) => ({ ...current, time: "" }));
+    }
+  }, [adminAvailableTimes, editingId, form.time]);
 
   const resetForm = (date = selectedDate) => {
     setEditingId(null);
@@ -659,15 +699,13 @@ export default function AdminCalendar({
             <div className="grid grid-cols-2 gap-4">
               <label className="block space-y-2">
                 <span className="text-xs uppercase tracking-[0.3em] text-white/40">Datum</span>
-                <input
-                  type="date"
+                <DatePopover
                   value={form.date}
-                  onChange={(event) => {
-                    setField("date", event.target.value);
-                    setSelectedDate(startOfDay(new Date(`${event.target.value}T00:00:00`)));
+                  onChange={(value) => {
+                    setField("date", value);
+                    setSelectedDate(startOfDay(new Date(`${value}T00:00:00`)));
                   }}
-                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition focus:border-amber-500/50"
-                  required
+                  label="Datum termina"
                 />
               </label>
               <label className="block space-y-2">
@@ -680,6 +718,40 @@ export default function AdminCalendar({
                   required
                 />
               </label>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <span className="text-xs uppercase tracking-[0.3em] text-white/40">
+                  Slobodna vremena
+                </span>
+                <span className="text-xs text-white/30">
+                  Slobodno {adminAvailableTimes.length} / {TIME_SLOTS.length}
+                </span>
+              </div>
+
+              {adminAvailableTimes.length > 0 ? (
+                <div className="grid grid-cols-4 gap-2">
+                  {adminAvailableTimes.map((time) => (
+                    <button
+                      key={time}
+                      type="button"
+                      onClick={() => setField("time", time)}
+                      className={`rounded-xl border px-2 py-2 text-sm transition ${
+                        form.time === time
+                          ? "border-amber-500 bg-amber-500 text-black"
+                          : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                      }`}
+                    >
+                      {time}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-white/40">
+                  Nema slobodnih termina za odabrani datum.
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">

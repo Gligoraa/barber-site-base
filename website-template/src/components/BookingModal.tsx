@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, Scissors, ArrowRight } from 'lucide-react';
 import { Appointment, businessData } from '../config/business-config';
+import DatePopover from './DatePopover';
+import { getAvailableTimeSlots, TIME_SLOTS } from '../lib/availability';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -23,11 +25,71 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
   const [clientPhone, setClientPhone] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [bookedTimes, setBookedTimes] = useState<string[]>([]);
+  const [isLoadingAvailability, setIsLoadingAvailability] = useState(false);
 
   const services = businessData.services;
   const stylists = businessData.stylists;
-  const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
   const minDate = useMemo(() => new Date().toISOString().split('T')[0], []);
+  const selectedStylistData = stylists.find((stylist) => stylist.id === selectedStylist);
+  const availableTimes = useMemo(
+    () => getAvailableTimeSlots(bookedTimes),
+    [bookedTimes]
+  );
+
+  useEffect(() => {
+    if (!selectedDate || !selectedStylistData) {
+      setBookedTimes([]);
+      return;
+    }
+
+    let ignore = false;
+
+    const loadAvailability = async () => {
+      setIsLoadingAvailability(true);
+      setErrorMessage('');
+
+      try {
+        const params = new URLSearchParams({
+          date: selectedDate,
+          stylist: selectedStylistData.name,
+        });
+        const response = await fetch(`/api/availability?${params.toString()}`);
+        const payload = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(payload?.error ?? 'Nije moguće dohvatiti slobodne termine.');
+        }
+
+        if (!ignore) {
+          const nextBookedTimes = Array.isArray(payload?.bookedTimes) ? payload.bookedTimes : [];
+          setBookedTimes(nextBookedTimes);
+          setSelectedTime((current) =>
+            current && nextBookedTimes.includes(current) ? '' : current
+          );
+        }
+      } catch (availabilityError) {
+        if (!ignore) {
+          setBookedTimes([]);
+          setErrorMessage(
+            availabilityError instanceof Error
+              ? availabilityError.message
+              : 'Nije moguće dohvatiti slobodne termine.'
+          );
+        }
+      } finally {
+        if (!ignore) {
+          setIsLoadingAvailability(false);
+        }
+      }
+    };
+
+    void loadAvailability();
+
+    return () => {
+      ignore = true;
+    };
+  }, [selectedDate, selectedStylistData]);
 
   const resetForm = () => {
     setStep(1);
@@ -40,6 +102,8 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
     setClientPhone('');
     setErrorMessage('');
     setIsSubmitting(false);
+    setBookedTimes([]);
+    setIsLoadingAvailability(false);
   };
 
   const handleClose = () => {
@@ -241,36 +305,60 @@ export const BookingModal = ({ isOpen, onClose, onBookingComplete }: BookingModa
                     Odaberi datum i vrijeme
                   </h3>
                   <div className="grid gap-8">
-                    <input
-                      type="date"
-                      min={minDate}
+                    <DatePopover
                       value={selectedDate}
-                      className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-                      onChange={(e) => {
+                      minDate={minDate}
+                      onChange={(value) => {
                         setErrorMessage('');
-                        setSelectedDate(e.target.value);
+                        setSelectedDate(value);
+                        setSelectedTime('');
                       }}
+                      label="Datum termina"
                     />
-                    <div className="grid grid-cols-4 gap-2">
-                      {timeSlots.map((time) => (
-                        <button
-                          key={time}
-                          onClick={() => {
-                            if (!selectedDate) {
-                              setErrorMessage('Prvo odaberite datum, a zatim vrijeme.');
-                              return;
-                            }
-
-                            setErrorMessage('');
-                            setSelectedTime(time);
-                            setStep(4);
-                          }}
-                          className={`rounded-xl border p-3 text-center transition-all ${selectedTime === time ? 'border-amber-500 bg-amber-500 text-black' : 'border-white/5 bg-white/5 text-white hover:bg-white/10'}`}
-                        >
-                          {time}
-                        </button>
-                      ))}
-                    </div>
+                    {selectedDate ? (
+                      <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+                        <div className="mb-3 flex items-center justify-between gap-3">
+                          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">
+                            Slobodna vremena
+                          </p>
+                          {isLoadingAvailability && (
+                            <span className="text-xs text-white/40">Učitavanje...</span>
+                          )}
+                        </div>
+                        {availableTimes.length > 0 ? (
+                          <div className="grid grid-cols-4 gap-2">
+                            {availableTimes.map((time) => (
+                              <button
+                                key={time}
+                                onClick={() => {
+                                  setErrorMessage('');
+                                  setSelectedTime(time);
+                                  setStep(4);
+                                }}
+                                className={`rounded-xl border p-3 text-center transition-all ${selectedTime === time ? 'border-amber-500 bg-amber-500 text-black' : 'border-white/5 bg-white/5 text-white hover:bg-white/10'}`}
+                              >
+                                {time}
+                              </button>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-white/45">
+                            {isLoadingAvailability
+                              ? 'Provjeravamo dostupnost termina za odabrani datum.'
+                              : 'Nema slobodnih termina za taj datum. Odaberi drugi dan.'}
+                          </p>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="rounded-2xl border border-dashed border-white/10 bg-black/20 p-4 text-sm text-white/40">
+                        Nakon odabira datuma prikazat ćemo slobodna vremena.
+                      </div>
+                    )}
+                    {selectedDate && (
+                      <p className="text-xs uppercase tracking-[0.25em] text-white/30">
+                        Ukupno slotova u danu: {TIME_SLOTS.length}, slobodno: {availableTimes.length}
+                      </p>
+                    )}
                   </div>
                 </motion.div>
               )}
